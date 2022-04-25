@@ -13,6 +13,9 @@ int main(int argc, char *argv[])
     session f;
     QObject::connect(&f, SIGNAL(sessionTypeValue(QString)), &w, SLOT(showMainWindow()));
     QObject::connect(&f, SIGNAL(sessionTypeValue(QString)), &w, SLOT(firstStatusUi(QString)));
+
     f.show();
+    QObject::connect(&f, SIGNAL(timeOutValueClicked(int)), &w, SLOT(timeOut(int)));
+
     return a.exec();
 }

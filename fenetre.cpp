@@ -8,7 +8,6 @@
 #include <QMessageBox>
 #include <QDoubleValidator>
 #include <vector>
-#include <iostream>
 
 using namespace std;
 
@@ -84,6 +83,15 @@ void Fenetre::firstStatusUi(const QString &whatSession)
 
         setWindowTitle("Supermarché - Directeur");
         ui->labelWhoAmI->setText("Connecté en tant que directeur");
+    }
+}
+
+void Fenetre::timeOut(const int &yesOrNoTimeOut)
+{
+    qDebug()<<yesOrNoTimeOut ;
+    if(yesOrNoTimeOut==16384){
+        qDebug()<<yesOrNoTimeOut ;
+        this->hide();
     }
 }
 void Fenetre::checkInputs(){

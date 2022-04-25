@@ -20,6 +20,7 @@ private slots:
 
 signals:
     void sessionTypeValue(const QString& whatSession);
+    void timeOutValueClicked(const int& yesOrNoTimeOut);
 };
 
 #endif // SESSION_H

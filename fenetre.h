@@ -32,6 +32,8 @@ private slots :
     void canUpdateDBOrNot();
     void showMainWindow();
     void firstStatusUi(const QString& whatSession);
+    void timeOut(const int& yesOrNoTimeOut);
+
 };
 
 #endif // FENETRE_H
