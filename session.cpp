@@ -13,23 +13,16 @@ session::session(QWidget *parent) :
     ui(new Ui::session)
 {
     ui->setupUi(this);
-
     QObject::connect(ui->pushButtonOk, &QPushButton::clicked, this, &session::checkPassword);
     ui->lineEditMDP->setEchoMode(QLineEdit::Password); // https://stackoverflow.com/questions/5834412/using-qlineedit-for-passwords
     setWindowTitle("Supermarché - Connexion");
-
 }
 
-void session::checkPassword()
-{
-
+void session::checkPassword(){
     QMessageBox msgBox;
     msgBox.setText("Souhaitez-vous que la session soit fermée après une inactivité de 5 minutes ?");
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Yes);
-
-
-
 
     QMessageBox wrongPassword;
     wrongPassword.setText("Mauvais mot de passe");
@@ -49,6 +42,7 @@ void session::checkPassword()
             this->hide();
             emit sessionTypeValue("Client");
         }
+
         else
             wrongPassword.exec();
     }
@@ -58,12 +52,12 @@ void session::checkPassword()
             this->hide();
             emit sessionTypeValue("Directeur");
         }
+
         else
             wrongPassword.exec();
     }
 }
 
-session::~session()
-{
+session::~session(){
     delete ui;
 }

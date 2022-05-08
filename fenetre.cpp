@@ -55,39 +55,32 @@ Fenetre::Fenetre(QWidget *parent)
     QObject::connect(ui->tableWidgetDBTable, &QTableWidget::cellChanged, this, &Fenetre::updateDB);
 }
 
-void Fenetre::firstStatusUi(const QString &whatSession)
-{
+void Fenetre::firstStatusUi(const QString &whatSession){
     if(whatSession=="Employé"){
 
         setWindowTitle("Supermarché - Employé");
-
         ui->comboBoxFeature->removeItem(3);
         ui->labelWhoAmI->setText("Connecté en tant qu'employé");
     }
 
     if(whatSession=="Client"){
-
         setWindowTitle("Supermarché - Client");
-
         ui->labelJeVeux->hide();
         ui->comboBoxFeature->hide();
         ui->labelWhoAmI->setText("Connecté en tant que client");
         ui->comboBoxFeature->removeItem(1);
         ui->comboBoxFeature->removeItem(1);
-
         createTable();
         ui->tableWidgetDBTable->setGeometry(60,50,510,500);
     }
 
     if(whatSession=="Directeur"){
-
         setWindowTitle("Supermarché - Directeur");
         ui->labelWhoAmI->setText("Connecté en tant que directeur");
     }
 }
 
-void Fenetre::timeOut(const int &yesOrNoTimeOut)
-{
+void Fenetre::timeOut(const int &yesOrNoTimeOut){
     qDebug()<<yesOrNoTimeOut ;
     if(yesOrNoTimeOut==16384){
         qDebug()<<yesOrNoTimeOut ;
@@ -123,15 +116,15 @@ void Fenetre::insertToDB(){
     queryCheckData.exec(); // execute the prepared query
 
     QMessageBox errorMessageAlreadyInDatabase;
+    errorMessageAlreadyInDatabase.setText("Deja dans la bdd");
 
     int nb = 0;
     while (queryCheckData.next())
         nb++;
 
-    if (nb >0){
-        errorMessageAlreadyInDatabase.setText("Deja dans la bdd");
+    if (nb >0)
         errorMessageAlreadyInDatabase.exec();
-    }
+
     else{
         QSqlQuery sendToBDD;
 
@@ -152,7 +145,6 @@ void Fenetre::insertToDB(){
 
 void Fenetre::deleteFromDB(){
     QString libelle = ui->lineEditLibelle->text(); // Strings containing lineEdit's value
-
     QSqlQuery queryCheckDataForDelete;
 
     queryCheckDataForDelete.prepare("SELECT Libelle from produits where Libelle = :Libelle"); //SQL Query that we want to execute
@@ -161,6 +153,10 @@ void Fenetre::deleteFromDB(){
     queryCheckDataForDelete.exec(); // execute the prepared query
 
     QMessageBox errorMessageNotInDatabase;
+    errorMessageNotInDatabase.setText("Ce produit n'est pas dans la BDD");
+
+    QMessageBox successMessage;
+    successMessage.setText("Supprimé de la BDD avec succès");
 
     int nb = 0;
     while (queryCheckDataForDelete.next())
@@ -171,15 +167,11 @@ void Fenetre::deleteFromDB(){
         deleteFromDB.prepare("DELETE FROM produits where Libelle = :Libelle"); //SQL Query that we want to execute
         deleteFromDB.bindValue(":Libelle", libelle ); // Libelle value will be lineEditLibelle's value
         deleteFromDB.exec(); // execute the prepared query
-
-        QMessageBox successMessage;
-        successMessage.setText("Supprimé de la BDD avec succès");
         successMessage.exec();
     }
-    else{
-        errorMessageNotInDatabase.setText("Ce produit n'est pas dans la BDD");
+    else
         errorMessageNotInDatabase.exec();
-    }
+
     clearInputs();
 }
 
